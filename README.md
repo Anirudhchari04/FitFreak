@@ -92,6 +92,93 @@ You can now feed `X_padded` and `y_encoded` to a deep learning model (e.g., LSTM
 
 
 
+
+# 🏋️‍♂️ Exercise Form Correction Modules – Code Overview
+
+This document explains the purpose and workings of the three key Python scripts in this project, which implement **live form correction** using pose estimation for different exercises.
+
+---
+
+## 📘 1. `bicur_offc1.py` – Bicep Curl Form Correction
+
+### 🔧 Functionality:
+- Uses **MediaPipe** for real-time pose detection from webcam.
+- Loads **reference landmark CSVs** to define correct form.
+- Tracks reps, analyzes form (elbow position, shoulder elevation, wrist alignment).
+- Computes:
+  - **Rep Accuracy**
+  - **Consistency**
+  - **Tempo Score**
+  - **Motion Smoothness**
+- Provides **real-time visual feedback** and guidance.
+- Draws bounding box around tracked person to focus analysis.
+
+### ✅ Improvements in this version:
+- Handles multiple people but tracks one main subject.
+- Uses **priority-based feedback** and dynamic error weighting.
+- Introduces **stability counters** to prevent flickering rep states.
+- Adds **perfect rep detection** and feedback queues.
+
+---
+
+## 📘 2. `lateral_raiseoffc2.py` – Side Lateral Raise Form Correction
+
+### 🔧 Functionality:
+- Focuses on **side lateral raise** movement using pose landmarks.
+- Monitors arm extension, balance, wrist alignment, and elbow bend.
+- Computes:
+  - **Range of Motion (ROM)**
+  - **Accuracy per Rep**
+  - **Tempo Score**
+  - **Consistency Score**
+- Draws the pose and bounding box using OpenCV.
+- Saves per-frame landmark data to a CSV.
+
+### ✅ Key Highlights:
+- More lenient thresholds to reduce false errors.
+- Tracks **good form streaks** to reward consistency.
+- Smooth motion tracking to penalize jerky movements.
+- Uses **form feedback priority** to show the most relevant suggestions.
+
+---
+
+## 📘 3. `overhead2.py` – Overhead Shoulder Press Form Correction
+
+### 🔧 Functionality:
+- Designed for **overhead dumbbell/barbell shoulder press**.
+- Loads **reference CSVs** and separates them into "up" and "down" position templates.
+- Tracks:
+  - **Joint angles (elbow/shoulder/hip)**
+  - **Exercise state transitions (up/down)**
+  - **Reps and form errors**
+- Provides real-time **feedback** and overlays accuracy and rep counts.
+
+### ✅ Key Features:
+- Accurate **angle-based rep detection**.
+- Error tracking includes:
+  - Incomplete extension
+  - Raised shoulders
+  - Back arching
+  - Reference mismatch
+- Feedback shows suggestions and average accuracy scores.
+- Uses bounding box and visibility thresholding to isolate the main subject.
+
+---
+
+## 🚀 What Can Be Improved
+
+- [ ] Add sound or vibration cues for feedback.
+- [ ] Implement **smoother visual overlays** using a GUI framework (e.g., Tkinter, PyQt).
+- [ ] Integrate with a mobile app or stream to cloud dashboard.
+- [ ] Use **machine learning models** to learn correct vs. incorrect patterns instead of rule-based logic.
+- [ ] Expand feedback to include suggestions for progression or weight.
+
+---
+
+Each of these scripts brings **intelligent real-time coaching** into fitness tracking. With MediaPipe's efficiency and a structured feedback system, these modules are ideal for AI-powered personal training applications.
+
+
+
 ## ✍️ Author
 
 **FitFreak Project** – AI-powered exercise classification for smarter workout feedback.
